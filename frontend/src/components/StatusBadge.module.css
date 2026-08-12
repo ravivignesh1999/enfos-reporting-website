@@ -1,0 +1,38 @@
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.empty {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.green {
+  background: #e1eecc;
+  color: #3d472b;
+}
+
+.amber {
+  background: #ffe1d0;
+  color: #643312;
+}
+
+.blue {
+  background: #dbe6f2;
+  color: #2c4a66;
+}
+
+.gray {
+  background: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+}
+
+.neutral {
+  background: #dcd3c4;
+  color: #474238;
+}

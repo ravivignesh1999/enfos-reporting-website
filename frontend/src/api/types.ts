@@ -1,5 +1,4 @@
-// These types mirror the backend's DTOs exactly (see backend/src/main/java/.../dto and
-// .../controller). Kept in sync by hand — if the backend response shape changes, update here.
+// Mirrors backend/src/main/java/.../dto exactly. Kept in sync by hand.
 
 export type ReportId = "users" | "departments" | "projects";
 
@@ -12,7 +11,6 @@ export interface ReportMetadata {
   lastUpdated: string; // ISO instant, e.g. "2026-08-12T00:54:26.188061Z"
 }
 
-// Shared wrapper for the three paginated row endpoints.
 export interface PagedResponse<T> {
   content: T[];
   page: number;
@@ -57,7 +55,6 @@ export interface ProjectResponse {
   updatedAt: string;
 }
 
-// Shape returned for every error (400s and 500s alike).
 export interface ErrorResponse {
   timestamp: string;
   status: number;
@@ -65,8 +62,7 @@ export interface ErrorResponse {
   path: string;
 }
 
-// Matches each controller's SORTABLE_FIELDS whitelist exactly — sorting by anything else
-// is rejected by the backend with a 400.
+// Matches each controller's SORTABLE_FIELDS whitelist; other fields are rejected with a 400.
 export const SORTABLE_FIELDS: Record<ReportId, readonly string[]> = {
   users: ["id", "name", "status", "createdDate"],
   departments: ["id", "name", "employeeCount", "location"],

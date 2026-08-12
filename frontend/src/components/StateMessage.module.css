@@ -1,0 +1,56 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.iconCircle {
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.iconCircle.empty {
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+}
+
+.iconCircle.error {
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 23px;
+  margin-bottom: 8px;
+}
+
+.message {
+  max-width: 400px;
+  color: var(--color-text-secondary);
+  font-size: 14.5px;
+  margin-bottom: 20px;
+}
+
+.action {
+  border: 1px solid var(--color-border-strong);
+  background: transparent;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.action:hover {
+  background: rgba(198, 113, 57, 0.1);
+}

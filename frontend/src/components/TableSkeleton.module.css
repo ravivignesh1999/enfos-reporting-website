@@ -1,0 +1,12 @@
+.wrapper {
+  padding: 22px;
+}
+
+.bar {
+  height: 16px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  background: linear-gradient(90deg, #e0d0ad 0%, #d3c096 40%, #e0d0ad 80%);
+  background-size: 420px 100%;
+  animation: shimmer 1.3s linear infinite;
+}
