@@ -62,3 +62,13 @@
 .row:hover {
   background: var(--color-row-hover);
 }
+
+@media (max-height: 500px) {
+  .table th {
+    padding: 8px 14px;
+  }
+
+  .table td {
+    padding: 8px 14px;
+  }
+}

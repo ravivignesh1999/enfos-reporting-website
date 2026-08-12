@@ -1,3 +1,8 @@
+// Treats null and "" the same way ("nothing here") so both are handled identically.
+export function isBlank(value: string | null | undefined): boolean {
+  return value == null || value.trim() === "";
+}
+
 export function formatDate(value: string | null): string {
   if (!value) return "—";
   const date = new Date(value);

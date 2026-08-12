@@ -7,11 +7,6 @@
   white-space: nowrap;
 }
 
-.empty {
-  color: var(--color-text-muted);
-  font-style: italic;
-}
-
 .green {
   background: #e1eecc;
   color: #3d472b;

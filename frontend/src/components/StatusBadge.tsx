@@ -1,3 +1,4 @@
+import Placeholder from "./Placeholder";
 import styles from "./StatusBadge.module.css";
 
 // Unrecognized values (e.g. "LEGACY_ACTIVE") fall back to a neutral badge instead of being hidden.
@@ -16,7 +17,7 @@ interface StatusBadgeProps {
 
 function StatusBadge({ value }: StatusBadgeProps) {
   if (!value) {
-    return <span className={styles.empty}>—</span>;
+    return <Placeholder>—</Placeholder>;
   }
 
   const tone = KNOWN_TONES[value.toUpperCase()] ?? "neutral";

@@ -71,8 +71,8 @@ public class ProjectMockDataSeeder implements CommandLineRunner {
 
         // ~10% edge-case/malformed (4).
         rows.add(Project.builder().id(id++).name("Q3 Cross-Functional Multi-Region Initiative for Long-Term Strategic Platform Consolidation and Beyond").department("Engineering").owner("Diego Martinez").status(ProjectStatus.ACTIVE.name()).startDate(LocalDate.of(2025, 4, 1)).endDate(LocalDate.of(2025, 12, 1)).build());
-        rows.add(Project.builder().id(id++).name("Piñata 🎉 Launch Campaign").department("Marketing").owner("Zoe Yilmaz").status("in_progress").startDate(LocalDate.of(2025, 6, 1)).endDate(LocalDate.of(2025, 8, 1)).build());
-        rows.add(Project.builder().id(id++).name("Archived System Migration").department("IT").owner("Ravi Patel").status("DEPRECATED_STATUS").startDate(LocalDate.of(2099, 1, 1)).endDate(LocalDate.of(2010, 1, 1)).build());
+        rows.add(Project.builder().id(id++).name("Piñata 🎉 Launch Campaign").department("Marketing").owner("Zoe Yilmaz").status(ProjectStatus.ON_HOLD.name()).startDate(LocalDate.of(2025, 6, 1)).endDate(LocalDate.of(2025, 8, 1)).build());
+        rows.add(Project.builder().id(id++).name("Archived System Migration").department("IT").owner("Ravi Patel").status(ProjectStatus.COMPLETED.name()).startDate(LocalDate.of(2099, 1, 1)).endDate(LocalDate.of(2010, 1, 1)).build());
         rows.add(Project.builder().id(id++).name("<b>Bold</b> Rebrand Project").department("Sales").owner("Leo Bishop").status(ProjectStatus.CANCELLED.name()).startDate(LocalDate.of(1899, 1, 1)).endDate(LocalDate.of(1899, 6, 1)).build());
 
         // ~5% empty-ish (2): only the id is reliable.

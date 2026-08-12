@@ -59,9 +59,9 @@ public class UserMockDataSeeder implements CommandLineRunner {
 
         // ~10% edge-case/malformed (4).
         rows.add(User.builder().id(id++).name("Bartholomew Alexander Fitzgerald-Worthington the Third of Nowhereville").email("not-an-email").role("Engineer").status(UserStatus.ACTIVE.name()).createdDate(LocalDate.of(2023, 6, 1)).build());
-        rows.add(User.builder().id(id++).name("Zoë Ñuñez-O'Brien 😀").email("zoe.nunez@enfos.com").role("Manager").status("LEGACY_ACTIVE").createdDate(LocalDate.of(2022, 2, 2)).build());
+        rows.add(User.builder().id(id++).name("Zoë Ñuñez-O'Brien 😀").email("zoe.nunez@enfos.com").role("Manager").status(UserStatus.INACTIVE.name()).createdDate(LocalDate.of(2022, 2, 2)).build());
         rows.add(User.builder().id(id++).name("Kwame Asante").email("kwame.asante@@enfos..com").role("Sales").status(UserStatus.ACTIVE.name()).createdDate(LocalDate.of(2099, 12, 31)).build());
-        rows.add(User.builder().id(id++).name("<script>alert(1)</script>").email("test@enfos.com").role("Support").status("unknown").createdDate(LocalDate.of(1899, 1, 1)).build());
+        rows.add(User.builder().id(id++).name("<script>alert(1)</script>").email("test@enfos.com").role("Support").status(UserStatus.PENDING.name()).createdDate(LocalDate.of(1899, 1, 1)).build());
 
         // ~5% empty-ish (2): only the id is reliable.
         rows.add(User.builder().id(id++).build());

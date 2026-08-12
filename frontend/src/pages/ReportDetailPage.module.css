@@ -74,3 +74,29 @@
 .tableScroll::-webkit-scrollbar {
   display: none; /* Chrome, Safari, new Edge */
 }
+
+/* Short viewports (e.g. a phone in landscape) — the page and title were eating almost all the
+   available height, leaving room for ~1 table row. Shrink the surrounding chrome so the table
+   actually gets space to show data. */
+@media (max-height: 500px) {
+  .main {
+    padding: 12px 24px 16px;
+  }
+
+  .backButton {
+    margin-bottom: 8px;
+  }
+
+  .titleRow {
+    margin-bottom: 10px;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+
+  .subtitle {
+    display: none;
+  }
+}
