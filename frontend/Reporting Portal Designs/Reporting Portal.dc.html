@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+  body { margin:0; background:#e5d5b6; color:#201e1d; font-family:"Figtree",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  *,*::before,*::after { box-sizing:border-box; }
+  a { color:#8c491a; text-underline-offset:3px; }
+  a:hover { color:#b2622d; }
+  :focus { outline:none; }
+  :focus-visible { outline:2px solid #c67139; outline-offset:2px; }
+  ::selection { background:rgba(198,113,57,.3); }
+  @keyframes shimmer { 0% { background-position:-420px 0; } 100% { background-position:420px 0; } }
+  @keyframes spin { to { transform:rotate(360deg); } }
+</style>
+</helmet>
+<div style="height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#e5d5b6;font-family:'Figtree',system-ui,sans-serif;color:#201e1d;font-size:15px;line-height:1.55">
+
+  <header style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 40px;border-bottom:1px solid rgba(32,30,29,.12);background:rgba(229,213,182,.93);flex-shrink:0;z-index:20">
+    <div style="display:flex;align-items:center;gap:12px;cursor:pointer" onClick="{{ goHome }}">
+      <div style="width:34px;height:34px;border-radius:999px;background:#c67139;display:flex;align-items:center;justify-content:center;color:#fff2eb;font-family:'Caprasimo',serif;font-size:17px">E</div>
+      <div style="font-family:'Caprasimo',serif;font-size:19px;letter-spacing:-.01em">ENFOS</div>
+      <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#82796a;padding-left:12px;border-left:1px solid rgba(32,30,29,.16)">Internal</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="display:flex;align-items:center;gap:6px;background:#d8c7a3;border-radius:999px;padding:4px">
+        <button style="border:0;background:transparent;font-family:'Figtree',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#645c50;padding:5px 10px;cursor:default">Demo state</button>
+        <sc-for list="{{ stateOptions }}" as="opt" hint-placeholder-count="4">
+          <button onClick="{{ opt.pick }}" title="{{ opt.label }}" style="{{ opt.style }}" style-hover="opacity:.85">{{ opt.label }}</button>
+        </sc-for>
+      </div>
+      <div style="width:32px;height:32px;border-radius:999px;background:#7a8a5e;color:#f0fae1;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">RV</div>
+    </div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <main style="flex:1;min-height:0;overflow-y:auto;width:100%;max-width:1180px;margin:0 auto;padding:56px 40px 80px">
+      <div style="max-width:620px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#b2622d;margin-bottom:14px">Reports</div>
+        <h1 style="font-family:'Caprasimo',serif;font-size:52px;line-height:1.05;letter-spacing:-.02em;margin:0 0 14px">Everything the org runs on, in one place.</h1>
+        <p style="margin:0;font-size:17px;color:#645c50;text-wrap:pretty">Browse the reports available to your team, open one to explore the data, and export what you need.</p>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:16px;margin:40px 0 28px;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(32,30,29,.16);border-radius:999px;padding:11px 20px;min-width:340px;box-shadow:0 1px 2px rgba(46,43,37,.08)">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#82796a" stroke-width="2.75" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input value="{{ homeQuery }}" onChange="{{ onHomeQuery }}" placeholder="Search reports" style="border:0;outline:0;background:transparent;font-family:'Figtree',sans-serif;font-size:15px;color:#201e1d;width:100%">
+        </label>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px">
+        <sc-for list="{{ homeReports }}" as="r" hint-placeholder-count="3">
+          <article onClick="{{ r.open }}" style="background:#fbf5e9;border:1px solid rgba(32,30,29,.12);border-radius:28px;padding:28px;cursor:pointer;display:flex;flex-direction:column;gap:14px;box-shadow:0 1px 2px rgba(46,43,37,.1);transition:transform .16s ease, box-shadow .16s ease" style-hover="transform:translateY(-3px);box-shadow:0 12px 32px rgba(46,43,37,.16)">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <div style="width:46px;height:46px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:{{ r.iconBg }}">
+                <span style="font-family:'Caprasimo',serif;font-size:19px;color:{{ r.iconFg }}">{{ r.initial }}</span>
+              </div>
+              <span style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:#dfd2b6;color:#645c50">{{ r.rowsLabel }}</span>
+            </div>
+            <div>
+              <h3 style="font-family:'Caprasimo',serif;font-size:24px;margin:0 0 6px;letter-spacing:-.01em">{{ r.name }}</h3>
+              <p style="margin:0;font-size:14.5px;color:#645c50;text-wrap:pretty">{{ r.description }}</p>
+            </div>
+            <div style="margin-top:auto;padding-top:14px;border-top:1px solid rgba(32,30,29,.1);display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:13px;color:#82796a">Updated {{ r.updated }}</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:#8c491a">Open
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ noHomeResults }}">
+        <div style="text-align:center;padding:70px 20px;color:#82796a">
+          <div style="font-family:'Caprasimo',serif;font-size:22px;color:#201e1d;margin-bottom:6px">No reports match that search</div>
+          <div style="font-size:14.5px">Try a different term, or clear the search to see all three reports.</div>
+        </div>
+      </sc-if>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isReport }}">
+    <main style="flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;width:100%;max-width:1360px;margin:0 auto;padding:28px 40px 32px">
+      <button onClick="{{ goHome }}" style="display:inline-flex;align-items:center;gap:8px;border:0;background:transparent;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;color:#645c50;padding:6px 0;cursor:pointer;margin-bottom:18px" style-hover="color:#8c491a">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6"></path><path d="m12 19-7-7 7-7"></path></svg>
+        All reports
+      </button>
+
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:26px">
+        <div>
+          <h1 style="font-family:'Caprasimo',serif;font-size:38px;letter-spacing:-.015em;margin:0 0 6px">{{ report.name }}</h1>
+          <p style="margin:0;font-size:15px;color:#645c50">{{ report.description }} · Updated {{ report.updated }}</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="position:relative">
+            <button onClick="{{ toggleColMenu }}" style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(32,30,29,.2);background:transparent;border-radius:999px;padding:10px 18px;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;color:#201e1d;cursor:pointer" style-hover="background:rgba(198,113,57,.1)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16M15 4v16"></path></svg>
+              Columns
+            </button>
+            <sc-if value="{{ colMenuOpen }}">
+              <div style="position:absolute;right:0;top:calc(100% + 8px);z-index:30;background:#fbf5e9;border:1px solid rgba(32,30,29,.14);border-radius:16px;box-shadow:0 12px 32px rgba(46,43,37,.22);padding:10px;min-width:230px">
+                <sc-for list="{{ allColumns }}" as="c" hint-placeholder-count="6">
+                  <label style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;font-size:14px;cursor:pointer" style-hover="background:#e5d5b6">
+                    <input type="checkbox" checked="{{ c.visible }}" onChange="{{ c.toggle }}" style="accent-color:#c67139;width:15px;height:15px">
+                    {{ c.label }}
+                  </label>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+          <button onClick="{{ exportCsv }}" style="display:inline-flex;align-items:center;gap:8px;border:0;background:#c67139;color:#fffaf3;border-radius:999px;padding:11px 20px;font-family:'Caprasimo',serif;font-size:14px;cursor:pointer" style-hover="background:#b2622d">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="m7 11 5 5 5-5"></path><path d="M5 20h14"></path></svg>
+            Export CSV
+          </button>
+        </div>
+      </div>
+
+      <div style="background:#fbf5e9;border:1px solid rgba(32,30,29,.12);border-radius:28px;box-shadow:0 3px 10px rgba(46,43,37,.1);overflow:hidden;flex:1;min-height:0;display:flex;flex-direction:column;position:relative">
+        <sc-if value="{{ isPaging }}">
+          <div style="position:absolute;inset:57px 0 0 0;z-index:5;background:rgba(251,245,233,.72);display:flex;align-items:center;justify-content:center;gap:10px;font-size:14px;color:#645c50">
+            <span style="width:18px;height:18px;border:2.5px solid rgba(32,30,29,.15);border-top-color:#c67139;border-radius:999px;display:inline-block;animation:spin .8s linear infinite"></span>
+            Loading page…
+          </div>
+        </sc-if>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 22px;border-bottom:1px solid rgba(32,30,29,.1);flex-wrap:wrap;flex-shrink:0">
+          <label style="display:flex;align-items:center;gap:10px;background:#e5d5b6;border-radius:999px;padding:9px 16px;min-width:300px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#82796a" stroke-width="2.75" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+            <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="{{ searchPlaceholder }}" style="border:0;outline:0;background:transparent;font-family:'Figtree',sans-serif;font-size:14px;width:100%;color:#201e1d">
+          </label>
+          <div style="font-size:13.5px;color:#82796a;white-space:nowrap">{{ resultLabel }}</div>
+        </div>
+
+        <sc-if value="{{ showTable }}" hint-placeholder-val="{{ true }}">
+          <div style="flex:1;min-height:0;overflow:auto">
+            <table style="width:100%;border-collapse:separate;border-spacing:0;font-size:14px">
+              <thead>
+                <tr>
+                  <sc-for list="{{ columns }}" as="c" hint-placeholder-count="6">
+                    <th onClick="{{ c.sort }}" style="{{ c.thStyle }}" style-hover="background:#dfd2b6">
+                      <span style="display:inline-flex;align-items:center;gap:6px">{{ c.label }}<span style="{{ c.arrowStyle }}">{{ c.arrow }}</span></span>
+                    </th>
+                  </sc-for>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ pageRows }}" as="row" hint-placeholder-count="10">
+                  <tr style-hover="background:#f2e8d3">
+                    <sc-for list="{{ row.cells }}" as="cell">
+                      <td style="{{ cell.tdStyle }}">
+                        <sc-if value="{{ cell.isTag }}">
+                          <span style="{{ cell.tagStyle }}">{{ cell.value }}</span>
+                        </sc-if>
+                        <sc-if value="{{ cell.isPlain }}" hint-placeholder-val="{{ true }}">{{ cell.value }}</sc-if>
+                      </td>
+                    </sc-for>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isLoading }}">
+          <div style="flex:1;min-height:0;overflow:auto;padding:22px">
+            <div style="display:flex;align-items:center;gap:10px;color:#82796a;font-size:14px;margin-bottom:18px">
+              <span style="width:16px;height:16px;border:2.5px solid rgba(32,30,29,.15);border-top-color:#c67139;border-radius:999px;display:inline-block;animation:spin .8s linear infinite"></span>
+              Loading {{ report.name }}…
+            </div>
+            <sc-for list="{{ skeletonRows }}" as="s" hint-placeholder-count="8">
+              <div style="{{ s.style }}"></div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isEmpty }}">
+          <div style="flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;padding:48px 24px;text-align:center">
+            <div style="width:58px;height:58px;border-radius:999px;background:#dfd2b6;flex-shrink:0;margin-top:auto;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#82796a" stroke-width="2.75" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h6"></path></svg>
+            </div>
+            <div style="font-family:'Caprasimo',serif;font-size:23px;margin-bottom:8px">Nothing to show yet</div>
+            <p style="margin:0 auto 20px;max-width:380px;color:#645c50;font-size:14.5px">No records matched this view. Clear the search, or check back after the next sync.</p>
+            <button onClick="{{ resetFilters }}" style="border:1px solid rgba(32,30,29,.2);background:transparent;border-radius:999px;padding:10px 20px;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;cursor:pointer;color:#201e1d;align-self:center;flex-shrink:0;margin-bottom:auto" style-hover="background:rgba(198,113,57,.1)">Clear filters</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isError }}">
+          <div style="flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;padding:48px 24px;text-align:center">
+            <div style="width:58px;height:58px;border-radius:999px;background:#ffe1d0;flex-shrink:0;margin-top:auto;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8c491a" stroke-width="2.75" stroke-linecap="round"><path d="M12 8v5"></path><path d="M12 17h.01"></path><circle cx="12" cy="12" r="9"></circle></svg>
+            </div>
+            <div style="font-family:'Caprasimo',serif;font-size:23px;margin-bottom:8px">We couldn't load this report</div>
+            <p style="margin:0 auto 20px;max-width:400px;color:#645c50;font-size:14.5px">The reporting service returned an error (500). Your filters are still saved — try again in a moment.</p>
+            <button onClick="{{ retry }}" style="border:0;background:#c67139;color:#fffaf3;border-radius:999px;padding:11px 22px;font-family:'Caprasimo',serif;font-size:14px;cursor:pointer;align-self:center;flex-shrink:0;margin-bottom:auto" style-hover="background:#b2622d">Try again</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showPager }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 22px;border-top:1px solid rgba(32,30,29,.1);flex-wrap:wrap;flex-shrink:0">
+            <div style="font-size:13.5px;color:#82796a;white-space:nowrap">{{ rangeLabel }}</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <button onClick="{{ prevPage }}" style="{{ prevStyle }}">Previous</button>
+              <div style="font-size:13.5px;color:#645c50;padding:0 6px">Page {{ pageLabel }}</div>
+              <button onClick="{{ nextPage }}" style="{{ nextStyle }}">Next</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </main>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;rowsPerPage&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:10,&quot;min&quot;:5,&quot;max&quot;:50,&quot;step&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Table&quot;},&quot;compactRows&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Table&quot;}}">
+const REPORTS = [
+  { id:'users', name:'Users', description:'Everyone with an account, their role and current status.', updated:'2 hours ago', initial:'U', iconBg:'#ffe1d0', iconFg:'#8c491a',
+    columns:[
+      {key:'id',label:'User ID',width:'110px'},
+      {key:'name',label:'Name',sortable:true},
+      {key:'email',label:'Email'},
+      {key:'role',label:'Role',sortable:true,blankLabel:'No role'},
+      {key:'status',label:'Status',tag:true,sortable:true},
+      {key:'created',label:'Created Date',align:'right',sortable:true}
+    ]},
+  { id:'departments', name:'Departments', description:'Org structure, headcount and where each team sits.', updated:'yesterday', initial:'D', iconBg:'#e1eecc', iconFg:'#56633f',
+    columns:[
+      {key:'id',label:'Dept ID',width:'110px'},
+      {key:'name',label:'Department Name',sortable:true},
+      {key:'manager',label:'Manager',sortable:true,blankLabel:'Vacant'},
+      {key:'employees',label:'Employee Count',align:'right',numeric:true,sortable:true},
+      {key:'location',label:'Location',sortable:true},
+      {key:'openRoles',label:'Open Roles',align:'right',numeric:true,sortable:true}
+    ]},
+  { id:'projects', name:'Projects', description:'Active and past work, with owners and delivery dates.', updated:'4 days ago', initial:'P', iconBg:'#dfd2b6', iconFg:'#645c50',
+    columns:[
+      {key:'id',label:'Project ID',width:'120px'},
+      {key:'name',label:'Project Name',sortable:true},
+      {key:'department',label:'Department',sortable:true},
+      {key:'owner',label:'Owner',sortable:true},
+      {key:'status',label:'Status',tag:true,sortable:true},
+      {key:'start',label:'Start Date',sortable:true},
+      {key:'end',label:'End Date',sortable:true,blankLabel:'Ongoing'}
+    ]}
+];
+
+const FIRST = ['Amara','Noah','Priya','Luca','Mei','Tomas','Ivy','Rafael','Hana','Owen','Zara','Felix','Nina','Kwame','Sofia','Elias','Ruth','Jonas','Leila','Marco','Ada','Theo','Yara','Dmitri','Clara'];
+const LAST = ['Okafor','Bennett','Raman','Ferrari','Chen','Alvarez','Novak','Duarte','Sato','Whitfield','Haddad','Lindqvist','Moreau','Mensah','Rossi','Berg','Adeyemi','Kaufman','Nasser','Silva'];
+const ROLES = ['Admin','Analyst','Manager','Viewer','Engineer','Finance'];
+const USTATUS = ['Active','Active','Active','Invited','Suspended','Inactive'];
+const DEPTS = ['Engineering','Finance','People Ops','Marketing','Customer Success','Data & Analytics','Legal','Facilities','Security','Design','Sales','Support'];
+const CITIES = ['Berlin','Lisbon','Toronto','Austin','Singapore','Dublin','São Paulo','Remote'];
+const PROJ = ['Atlas','Beacon','Cobalt','Driftwood','Ember','Foxglove','Granite','Harbor','Ironwood','Juniper','Kestrel','Lantern','Meridian','Northstar','Orchard','Pinecrest','Quarry','Redwood','Sable','Tidewater','Umber','Vantage','Willow','Yarrow','Zephyr'];
+const PSTATUS = ['Active','Active','Completed','On Hold','Planning','Cancelled'];
+
+const TAGS = {
+  Active:['#e1eecc','#3d472b'], Completed:['#dfd2b6','#474238'], Invited:['#ffe1d0','#8c491a'],
+  Planning:['#f0fae1','#56633f'], 'On Hold':['#ffe1d0','#643312'], Suspended:['#ffc6a5','#643312'],
+  Inactive:['#dfd2b6','#645c50'], Cancelled:['#dcd3c4','#474238']
+};
+
+function seeded(n) { let x = Math.sin(n) * 10000; return x - Math.floor(x); }
+function pick(arr, n) { return arr[Math.floor(seeded(n) * arr.length)]; }
+function dateStr(n, base) { const d = new Date(base); d.setDate(d.getDate() - Math.floor(seeded(n) * 900)); return d.toISOString().slice(0,10); }
+
+function buildRows(id) {
+  const out = [];
+  if (id === 'users') {
+    for (let i = 0; i < 52; i++) {
+      const f = FIRST[i % FIRST.length], l = LAST[(i * 7 + Math.floor(i / LAST.length)) % LAST.length];
+      out.push({ id:'U-' + String(1041 + i), name: f + ' ' + l, email: (f + '.' + l).toLowerCase().replace(/[^a-z.]/g,'') + '@northwind.io',
+        role: i % 9 === 4 ? null : pick(ROLES, i + 3), status: pick(USTATUS, i + 11),
+        email_: null, created: i % 13 === 7 ? null : dateStr(i + 5, '2025-11-01') });
+    }
+  } else if (id === 'departments') {
+    for (let i = 0; i < DEPTS.length; i++) {
+      out.push({ id:'D-' + String(210 + i), name: DEPTS[i], manager: i % 5 === 3 ? null : pick(FIRST, i + 2) + ' ' + pick(LAST, i + 13),
+        employees: 6 + Math.floor(seeded(i + 21) * 140), location: i % 7 === 5 ? null : pick(CITIES, i + 4), openRoles: Math.floor(seeded(i + 33) * 9) });
+    }
+  } else {
+    for (let i = 0; i < 48; i++) {
+      const st = pick(PSTATUS, i + 6), start = dateStr(i + 9, '2025-06-01');
+      out.push({ id:'P-' + String(3080 + i), name:'Project ' + pick(PROJ, i + 1), department: pick(DEPTS, i + 8),
+        owner: i % 8 === 6 ? null : pick(FIRST, i + 15) + ' ' + pick(LAST, i + 4), status: st, start,
+        end: (st === 'Active' || st === 'Planning') ? null : dateStr(i + 12, '2026-08-01') });
+    }
+  }
+  return out;
+}
+
+class Component extends DCLogic {
+  state = { view:'home', reportId:null, rows:[], phase:'idle', paging:false, query:'', homeQuery:'',
+    sortKey:null, sortDir:'asc', page:1, hidden:[], colMenuOpen:false, demo:'normal' };
+
+  load(id) {
+    const demo = this.state.demo;
+    this.setState({ view:'report', reportId:id, phase:'loading', rows:[], query:'', sortKey:null, sortDir:'asc', page:1, hidden:[], colMenuOpen:false });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => {
+      if (demo === 'error') this.setState({ phase:'error' });
+      else if (demo === 'empty') this.setState({ phase:'ready', rows:[] });
+      else this.setState({ phase:'ready', rows: buildRows(id) });
+    }, 850);
+  }
+
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._p); }
+
+  goToPage(n) {
+    clearTimeout(this._p);
+    this.setState({ paging:true });
+    this._p = setTimeout(() => this.setState({ page:n, paging:false }), 550);
+  }
+
+  report() { return REPORTS.find(r => r.id === this.state.reportId) || REPORTS[0]; }
+
+  visibleColumns() { return this.report().columns.filter(c => this.state.hidden.indexOf(c.key) === -1); }
+
+  filtered() {
+    const q = this.state.query.trim().toLowerCase();
+    let rows = this.state.rows;
+    if (q) rows = rows.filter(r => Object.keys(r).some(k => r[k] != null && String(r[k]).toLowerCase().includes(q)));
+    const key = this.state.sortKey;
+    if (key) {
+      const col = this.report().columns.find(c => c.key === key) || {};
+      const dir = this.state.sortDir === 'asc' ? 1 : -1;
+      rows = rows.slice().sort((a, b) => {
+        const av = a[key], bv = b[key];
+        if (av == null && bv == null) return 0;
+        if (av == null) return 1;
+        if (bv == null) return -1;
+        return col.numeric ? (av - bv) * dir : String(av).localeCompare(String(bv)) * dir;
+      });
+    }
+    return rows;
+  }
+
+  renderVals() {
+    const s = this.state, rep = this.report(), size = Math.max(5, this.props.rowsPerPage ?? 10);
+    const pad = (this.props.compactRows ?? false) ? '9px 20px' : '14px 20px';
+    const rows = s.view === 'report' ? this.filtered() : [];
+    const pages = Math.max(1, Math.ceil(rows.length / size));
+    const page = Math.min(s.page, pages);
+    const pageRows = rows.slice((page - 1) * size, page * size);
+    const cols = this.visibleColumns();
+    const ready = s.phase === 'ready';
+
+    const btn = (on) => 'border:1px solid rgba(32,30,29,.2);background:transparent;border-radius:999px;padding:8px 16px;font-family:Figtree,sans-serif;font-size:13.5px;font-weight:600;color:#201e1d;cursor:' + (on ? 'pointer' : 'not-allowed') + ';opacity:' + (on ? 1 : .45);
+
+    return {
+      isHome: s.view === 'home', isReport: s.view === 'report', report: rep,
+      goHome: () => this.setState({ view:'home' }),
+      homeQuery: s.homeQuery,
+      onHomeQuery: e => this.setState({ homeQuery: e.target.value }),
+      homeReports: REPORTS.filter(r => (r.name + ' ' + r.description).toLowerCase().includes(s.homeQuery.trim().toLowerCase()))
+        .map(r => ({ ...r, rowsLabel: buildRows(r.id).length + ' rows', open: () => this.load(r.id) })),
+      homeCountLabel: REPORTS.filter(r => (r.name + ' ' + r.description).toLowerCase().includes(s.homeQuery.trim().toLowerCase())).length + ' of ' + REPORTS.length + ' reports',
+      noHomeResults: s.homeQuery.trim() !== '' && !REPORTS.some(r => (r.name + ' ' + r.description).toLowerCase().includes(s.homeQuery.trim().toLowerCase())),
+
+      stateOptions: ['normal','loading','empty','error'].map(v => ({
+        label: v === 'normal' ? 'Data' : v[0].toUpperCase() + v.slice(1),
+        pick: () => { this.setState({ demo: v }); if (s.view === 'report') { clearTimeout(this._t); if (v === 'loading') this.setState({ phase:'loading' }); else if (v === 'error') this.setState({ phase:'error' }); else if (v === 'empty') this.setState({ phase:'ready', rows:[], query:'' }); else this.setState({ phase:'ready', rows: buildRows(s.reportId), query:'' }); } },
+        style: 'border:0;border-radius:999px;padding:5px 12px;font-family:Figtree,sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;' + (s.demo === v ? 'background:#c67139;color:#fffaf3' : 'background:transparent;color:#645c50')
+      })),
+
+      isLoading: s.phase === 'loading',
+      isError: s.phase === 'error',
+      isEmpty: ready && rows.length === 0,
+      showTable: ready && rows.length > 0,
+      showPager: ready && rows.length > 0,
+      skeletonRows: Array.from({ length: 8 }, (_, i) => ({ style: 'height:16px;border-radius:999px;margin-bottom:14px;width:' + (100 - (i % 4) * 9) + '%;background:linear-gradient(90deg,#e0d0ad 0%,#d3c096 40%,#e0d0ad 80%);background-size:420px 100%;animation:shimmer 1.3s linear infinite' })),
+
+      query: s.query,
+      onQuery: e => this.setState({ query: e.target.value, page: 1 }),
+      searchPlaceholder: 'Search ' + rep.name.toLowerCase() + '…',
+      resultLabel: ready ? rows.length + (rows.length === 1 ? ' record' : ' records') + (s.query ? ' matching “' + s.query + '”' : '') : 'Fetching…',
+      resetFilters: () => this.setState({ query:'', page:1, demo:'normal', phase:'ready', rows: buildRows(s.reportId) }),
+      retry: () => { this.setState({ demo:'normal' }); this.load(s.reportId); },
+
+      colMenuOpen: s.colMenuOpen,
+      toggleColMenu: () => this.setState({ colMenuOpen: !s.colMenuOpen }),
+      allColumns: rep.columns.map(c => ({ label: c.label, visible: s.hidden.indexOf(c.key) === -1,
+        toggle: () => this.setState({ hidden: s.hidden.indexOf(c.key) === -1 ? s.hidden.concat(c.key) : s.hidden.filter(k => k !== c.key) }) })),
+
+      columns: cols.map(c => {
+        const active = s.sortKey === c.key;
+        return {
+          label: c.label,
+          arrow: c.sortable ? (active ? (s.sortDir === 'asc' ? '↑' : '↓') : '⇅') : '',
+          arrowStyle: 'font-size:12px;' + (active ? 'color:#b2622d' : 'color:rgba(32,30,29,.35)'),
+          sort: c.sortable ? () => this.setState({ sortKey: c.key, sortDir: active && s.sortDir === 'asc' ? 'desc' : 'asc', page: 1 }) : undefined,
+          thStyle: 'text-align:' + (c.align || 'left') + ';padding:13px 20px;font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:' + (active ? '#201e1d' : '#645c50') + ';background:#e5d5b6;white-space:nowrap;user-select:none;position:sticky;top:0;z-index:2;box-shadow:inset 0 -1px 0 rgba(32,30,29,.12);cursor:' + (c.sortable ? 'pointer' : 'default') + ';' + (c.width ? 'width:' + c.width : '')
+        };
+      }),
+
+      pageRows: pageRows.map(r => ({ cells: cols.map(c => {
+        const raw = r[c.key];
+        const blank = raw == null || raw === '';
+        const v = blank ? (c.blankLabel || '—') : (c.numeric ? Number(raw).toLocaleString() : raw);
+        const t = (c.tag && !blank) ? (TAGS[raw] || ['#dfd2b6','#474238']) : null;
+        return { value: v, isTag: !!t, isPlain: !t,
+          tdStyle: 'border-top:1px solid rgba(32,30,29,.09);padding:' + pad + ';text-align:' + (c.align || 'left') + ';white-space:nowrap;' + (blank ? 'color:#82796a;font-style:italic;' : 'color:#2e2b25;') + (c.key === 'id' ? 'font-variant-numeric:tabular-nums;color:#645c50;' : '') + (c.numeric ? 'font-variant-numeric:tabular-nums;' : ''),
+          tagStyle: t ? 'display:inline-block;padding:4px 12px;border-radius:999px;font-size:12.5px;font-weight:600;background:' + t[0] + ';color:' + t[1] : '' };
+      }) })),
+
+      rangeLabel: rows.length ? 'Showing ' + ((page - 1) * size + 1) + '–' + Math.min(page * size, rows.length) + ' of ' + rows.length : '',
+      pageLabel: page + ' of ' + pages,
+      isPaging: s.paging,
+      prevPage: () => { if (page > 1 && !s.paging) this.goToPage(page - 1); },
+      nextPage: () => { if (page < pages && !s.paging) this.goToPage(page + 1); },
+      prevStyle: btn(page > 1 && !s.paging), nextStyle: btn(page < pages && !s.paging),
+
+      exportCsv: () => {
+        const head = cols.map(c => c.label).join(',');
+        const body = rows.map(r => cols.map(c => '"' + String(r[c.key]).replace(/"/g,'""') + '"').join(',')).join('\n');
+        const url = URL.createObjectURL(new Blob([head + '\n' + body], { type:'text/csv' }));
+        const a = document.createElement('a');
+        a.href = url; a.download = rep.id + '-report.csv'; a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
